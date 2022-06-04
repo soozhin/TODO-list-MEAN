@@ -35,11 +35,21 @@ const port = 3000;
 // Make request to API from different domain name???
 app.use(cors());
 
+// Express session middleware
+const session = require('express-session');
+app.use(session({ secret: 'SECRET' }));
+
 // Set static folder as 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Body Parser Middleware
 app.use(bodyParser.json());
+
+//Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+require('./config/passport')(passport);
 
 // All 'users' route will go here
 app.use('/users', users);
